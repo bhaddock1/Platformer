@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float groundDrag;
 
     public float jumpForce;
+    public float launchForce;
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
@@ -21,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
+    public LayerMask whatIsLaunch;
+    bool readyToLaunch;
 
     public Transform orientation;
 
@@ -42,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        readyToLaunch = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsLaunch);
 
         MyInput();
         SpeedControl();
@@ -50,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
             rb.drag = groundDrag;
         else   
             rb.drag = 0;
+
     }
 
     private void FixedUpdate()
@@ -70,17 +75,25 @@ public class PlayerMovement : MonoBehaviour
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        if(Input.GetKey(jumpKey) && readyToJump && readyToLaunch)
+        {
+            readyToJump = false;
+
+            Launch();
+
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
     }
 
     private void MovePlayer()
     {
-
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         if(grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
         else if(!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);       
     }
 
     private void SpeedControl()
@@ -99,6 +112,13 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void Launch()
+    {
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        rb.AddForce(transform.up * launchForce, ForceMode.Impulse);
     }
 
     private void ResetJump()
