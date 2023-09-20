@@ -22,8 +22,6 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
-    public LayerMask whatIsLaunch;
-    bool readyToLaunch;
 
     public Transform orientation;
 
@@ -45,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        readyToLaunch = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsLaunch);
 
         MyInput();
         SpeedControl();
@@ -75,15 +72,15 @@ public class PlayerMovement : MonoBehaviour
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+    }
 
-        if(Input.GetKey(jumpKey) && readyToJump && readyToLaunch)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("LaunchPad"))
         {
-            readyToJump = false;
-
             Launch();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
         }
+
     }
 
     private void MovePlayer()
