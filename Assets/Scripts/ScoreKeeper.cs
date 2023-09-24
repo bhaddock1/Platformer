@@ -25,18 +25,32 @@ public class Scorekeeper : MonoBehaviour
     }
 
     // Adds to score on initial player collision trigger with a platform 
-    public void AddToScore(float Collision)
+    public void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collision detected with platform."); // Add this line for debugging
 
-    }
-       
+        // Check if the collision is with a platform and if it's the first time
+        if (collision.gameObject.CompareTag("Platform") && !collidedPlatforms.Contains(collision.collider))
+        {
+            collidedPlatforms.Add(collision.collider); // Mark the platform as collided
+
+            // Increase the score (you can adjust this as needed)
+            score += 10; // Example: Add 10 points for each platform collision
+
+            // Update the UI
+            DisplayScore();
+        }
+    } 
          
     
     //Displays score to UI rounded to nearest integer
     public void DisplayScore()
     {
+           // Round the score to the nearest integer
         int roundedScore = Mathf.RoundToInt(score);
-        scoreboardText.text = "Score: " + roundedScore.ToString();                                 
+        
+        // Update the TextMeshProUGUI text component to display the score
+        scoreboardText.text = "Score: " + roundedScore.ToString();                              
     }
 }
 
