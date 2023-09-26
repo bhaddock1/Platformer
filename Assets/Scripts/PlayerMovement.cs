@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float airMultiplier;
     bool readyToJump;
 
+
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
 
@@ -30,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     bool grounded;
 
     public Transform orientation;
+
+    public Transform startPosition;
 
     float horizontalInput;
     float verticalInput;
@@ -55,18 +58,18 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
 
-        if(grounded)  //eliminates drag when not touching ground
+        if (grounded)  //eliminates drag when not touching ground
             rb.drag = groundDrag;
-        else   
+        else
             rb.drag = 0;
-            
+
     }
 
     //countinuesly checks the move player field 
     private void FixedUpdate()
     {
         MovePlayer();
-    } 
+    }
 
     // executes method on specified player input
     private void MyInput()
@@ -74,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal"); // moves player horizontal on horizantal input A/D
         verticalInput = Input.GetAxisRaw("Vertical");   // moves player vertical on vertical input W/S
 
-        if(Input.GetKey(jumpKey) && readyToJump && grounded) //if the player is ready to jump and grounded while jumpkey(spacebar) is pressed the following is executed
+        if (Input.GetKey(jumpKey) && readyToJump && grounded) //if the player is ready to jump and grounded while jumpkey(spacebar) is pressed the following is executed
         {
             readyToJump = false;    //player is no longer ready to jump
 
@@ -92,19 +95,24 @@ public class PlayerMovement : MonoBehaviour
             Launch();
         }
 
+        if (collision.gameObject.CompareTag("Death"))
+        {
+            readyToJump = true;
+            transform.position = startPosition.position;
+            
+        }
     }
-    
     // moves the player in the relative direction of player input
     // if the player is grounded they move at normal move speed
     //if the player is not grounded they move at normal speed times air multiplier
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        if(grounded)
+        if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
-        else if(!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);       
+        else if (!grounded)
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
     }
 
     //limits player movement speed to player movement speed 
@@ -112,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        if(flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
@@ -141,3 +149,4 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
     }
 }
+    
