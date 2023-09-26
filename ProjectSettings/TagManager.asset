@@ -6,6 +6,8 @@ TagManager:
   tags:
   - LaunchPad
   - Platform
+  - Death
+  - Booster
   layers:
   - Default
   - TransparentFX

@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float jumpForce;
     public float launchForce;
+    public float boostForce;
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
@@ -101,6 +102,10 @@ public class PlayerMovement : MonoBehaviour
             transform.position = startPosition.position;
             
         }
+        if (collision.gameObject.CompareTag("Booster"))
+        {
+            Boost();
+        }
     }
     // moves the player in the relative direction of player input
     // if the player is grounded they move at normal move speed
@@ -143,6 +148,12 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(transform.up * launchForce, ForceMode.Impulse);
     }
 
+    private void Boost()
+    {
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        rb.AddForce(transform.forward * boostForce, ForceMode.Impulse);
+    }
     // resets ready to jump 
     private void ResetJump()
     {
