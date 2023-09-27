@@ -93,6 +93,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("LaunchPad"))
         {
+            LauchPadController launchPad = collision.gameObject.GetComponent<LaunchPadController>();
+
+            if (launchPad != null)
+            {
+                launchForce = launchPad.launchMultiplier;
+            }
+
+
             Launch();
         }
 

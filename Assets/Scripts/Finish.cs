@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.name == "Player/Camera")
+        Debug.Log("collision");
+
+        if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("collision");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
