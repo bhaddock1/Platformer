@@ -6,7 +6,7 @@ public class BoostControl : MonoBehaviour
 {
     public bool boosted;
 
-    void onTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {

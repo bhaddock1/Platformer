@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(boostControl.boosted)
         {
-            Debug.Log("boosted");
+            
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.AddForce(transform.up * boostForce, ForceMode.Impulse);
         }
