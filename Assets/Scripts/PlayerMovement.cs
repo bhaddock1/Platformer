@@ -51,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
     float horizontalInput;
     float verticalInput;
 
+    [Header("Key Collection")]
+    public int numOfKeysCollected = 0; // number of keys collected by player
+    public int numOfKeysRequired; // number of keys required to win the game
+
+
     public LaunchControl launchControl;
     public BoostControl boostControl;
     public Clock clock;
@@ -145,8 +150,17 @@ public class PlayerMovement : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             
         }
-        
-       
+
+        if (collision.gameObject.CompareTag("End"))
+        {
+            if(numOfKeysCollected == numOfKeysRequired)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // loads next scene if player has enough keys to win
+            }
+        }
+
+
+
     }
     // moves the player in the relative direction of player input
     // if the player is grounded they move at normal move speed

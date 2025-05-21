@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 4960305314155936190}
   - component: {fileID: 3444623989236816728}
   - component: {fileID: 792757993129879539}
+  - component: {fileID: 1332658534451516501}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -337,15 +338,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  wallRunSpeed: 0
   groundDrag: 5
   jumpForce: 8
+  launchForce: 0
+  boostForce: 0
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  jumpStaminaCost: 0
+  moveStaminaCost: 0
+  maxStamina: 0
+  currentStamina: 0
+  staminaBar: {fileID: 0}
   jumpKey: 32
+  forwardKey: 119
+  backwardKey: 115
+  leftKey: 97
+  rightKey: 100
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 0
+  grounded: 0
+  wallrunning: 0
+  orientation: {fileID: 5843452706744368146}
+  startPosition: {fileID: 0}
+  launchControl: {fileID: 0}
+  boostControl: {fileID: 0}
+  clock: {fileID: 0}
+--- !u!114 &1332658534451516501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6245406260175535293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2450bbc31ae4b3e4e804081ccf0aa1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  wallRunForce: 8
+  wallClimbSpeed: 2
+  maxWallRunTime: 1.5
+  upwardsRunKey: 304
+  downwardsRunKey: 306
+  wallCheckDistance: 0.7
+  minJumpHeight: 0.4
   orientation: {fileID: 5843452706744368146}
 --- !u!1 &6309259431875266904
 GameObject:
