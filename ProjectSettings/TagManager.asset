@@ -9,6 +9,7 @@ TagManager:
   - Booster
   - Death
   - Runnable
+  - End
   layers:
   - Default
   - TransparentFX
