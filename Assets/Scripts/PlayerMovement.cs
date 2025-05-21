@@ -203,7 +203,6 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         currentStamina -= jumpStaminaCost; // subtracts stamina from player when jump is performed  
         staminaBar.fillAmount = currentStamina / maxStamina; // updates stamina bar to reflect current stamina
-
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
@@ -219,7 +218,7 @@ public class PlayerMovement : MonoBehaviour
     {
         
 
-        if(boostControl.boosted)
+        if (boostControl.boosted)
         {
             
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
