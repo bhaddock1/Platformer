@@ -14,9 +14,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
-
+    public float wallRunSpeed;
     public float groundDrag;
-
     public float jumpForce;
     public float launchForce;
     public float boostForce;
@@ -42,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
+    public bool grounded;
+    public bool wallrunning;
 
     public Transform orientation;
 
@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     public LaunchControl launchControl;
     public BoostControl boostControl;
+    public Clock clock;
 
     Vector3 moveDirection;
 
@@ -75,6 +76,8 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         Boost();
+        CheckStamina();
+        CheckClock();
 
         if (grounded)  //eliminates drag when not touching ground
             rb.drag = groundDrag;
@@ -151,13 +154,21 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
         if (grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
             
         }
+        else if (wallrunning)   
+        {
+            rb.AddForce(moveDirection.normalized * wallRunSpeed * 10f, ForceMode.Force);
+        }
         else if (!grounded)
+        {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        }
+        
     }
 
     //limits player movement speed to player movement speed 
@@ -209,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
     }
 
-    private void checkStamina()
+    private void CheckStamina()
     {
         if(currentStamina <= 0)
         {
@@ -217,9 +228,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void checkClock()
+    private void CheckClock()
     {
-        if (GameObject.Find("Clock").GetComponent<Clock>().isClockRunning == false)
+        if (clock.isClockRunning == false)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
