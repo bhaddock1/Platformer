@@ -258,8 +258,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a78a00c0a312b41a86c7ae30c280d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 100
-  sensY: 100
+  sensX: 400
+  sensY: 400
   orientation: {fileID: 5843452706744368146}
 --- !u!1 &6245406260175535293
 GameObject:
@@ -363,8 +363,9 @@ MonoBehaviour:
   wallrunning: 0
   orientation: {fileID: 5843452706744368146}
   startPosition: {fileID: 0}
+  numOfKeysCollected: 0
+  numOfKeysRequired: 0
   launchControl: {fileID: 0}
-  boostControl: {fileID: 0}
   clock: {fileID: 0}
 --- !u!114 &1332658534451516501
 MonoBehaviour:

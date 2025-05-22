@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     public LaunchControl launchControl;
-    public BoostControl boostControl;
+    
     public Clock clock;
 
     Vector3 moveDirection;
@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
         MyInput();
         SpeedControl();
-        Boost();
+       
         CheckStamina();
         CheckClock();
 
@@ -148,19 +148,25 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Death"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            
-        }
 
-        if (collision.gameObject.CompareTag("End"))
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("End"))
         {
-            if(numOfKeysCollected == numOfKeysRequired)
+            if (numOfKeysCollected == numOfKeysRequired)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // loads next scene if player has enough keys to win
             }
         }
-
-
-
+        
+        if(other.gameObject.CompareTag("Booster"))
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            rb.AddForce(transform.up * boostForce, ForceMode.Impulse);
+        }
     }
     // moves the player in the relative direction of player input
     // if the player is grounded they move at normal move speed
@@ -214,18 +220,7 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(transform.up * launchForce, ForceMode.Impulse);
     }
 
-    private void Boost()
-    {
-        
-
-        if (boostControl.boosted)
-        {
-            
-            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-            rb.AddForce(transform.up * boostForce, ForceMode.Impulse);
-        }
-        boostControl.boosted = false;
-    }
+    
     
     // resets ready to jump 
     private void ResetJump()
