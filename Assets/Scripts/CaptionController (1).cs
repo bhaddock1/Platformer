@@ -22,6 +22,7 @@ public class CaptionController : MonoBehaviour
     private string textToType;                             // The text to be typed
     private int captionIndex;                              // Current caption being typed starting at zero
 
+    
     private void Update()
     {
         UserInput();
@@ -30,15 +31,15 @@ public class CaptionController : MonoBehaviour
     private void UserInput()
     {
         // Start typing by pressing any key.
-        if (Input.GetKey(KeyCode.Tab) && typingCoroutine == null)
+        if (Input.GetKey(KeyCode.Mouse0) && typingCoroutine == null)
         {
             if (captionIndex < captionImage.Length)
             {
-                typingCoroutine = StartCoroutine(TypeText());
+                typingCoroutine = StartCoroutine(TypeText());   
             }
             else
             {
-                SetCaptionInactive();
+                SetCaptionInactive();   
             }
         }
     }
@@ -58,7 +59,7 @@ public class CaptionController : MonoBehaviour
         captionImage[captionIndex].gameObject.SetActive(true);
         textComponent = captionImage[captionIndex].GetComponentInChildren<TextMeshProUGUI>();
         textToType = textComponent.text;
-        textComponent.text = "";               // Clear existing text
+        textComponent.text = "";              // Clear existing text
         float typingSpeedThisCharacter = typingSpeed;
         // Loop through each character in the textToType
 

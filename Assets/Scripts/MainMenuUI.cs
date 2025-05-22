@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
-    public GameObject Tutorial;
+    
     public void InitiateGame()
     {
-        Tutorial.SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }
